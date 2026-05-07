@@ -1,7 +1,6 @@
 import httpInstance from '@/utlis/http'
-
-export function getCategory(){
+export function getCategoryAPI() {
   return httpInstance({
-    url: 'home/category/head'
+    url: '/home/category/head'
   })
 }
