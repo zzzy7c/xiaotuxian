@@ -1,8 +1,30 @@
+// createRouter 创建路由实例
+// createWebHistory 创建history模式的路由
 import { createRouter, createWebHistory } from 'vue-router'
-
+import Login from '@/views/Login/index.vue'
+import Layout from '@/views/Layout/index.vue'
+import Home from '@/views/Home/index.vue'
+import Categroy from '@/views/Categroy/index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes: [
+    {
+      path: '/Login',
+      component: Login,
+    },
+    {
+      path: '/',
+      component: Layout,
+      children: [{
+        path: '',
+        component: Home,
+      },
+      {
+        path: '/Categroy',
+        component: Categroy,
+      }]
+    }
+  ],
 })
 
 export default router
