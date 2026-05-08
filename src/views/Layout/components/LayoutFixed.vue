@@ -1,6 +1,6 @@
 <script setup>
 import {useScroll} from '@vueuse/core'
-import { useCategoryStore } from '@/stores/categroy'
+import { useCategoryStore } from '@/stores/category'
 const {y} = useScroll(window)
 const categoryStore = useCategoryStore()
 </script>
@@ -17,7 +17,7 @@ const categoryStore = useCategoryStore()
         </li>
 
         <li v-for="item in categoryStore.categoryList" :key="item.id">
-          <RouterLink to="/">{{ item.name }}</RouterLink>
+          <RouterLink :to="`/Category/${item.id}`">{{ item.name }}</RouterLink>
 
         </li>
 
