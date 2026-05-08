@@ -1,7 +1,11 @@
 import httpInstance from '@/utlis/http'
-function getHomeBannerAPI () {
+function getHomeBannerAPI (params = {}) {
+  const { distributionsite = '1' } = params
   return httpInstance ({
-    url: '/home/banner'
+    url: '/home/banner',
+    params: {
+      distributionsite
+    }
   })
 }
 function getHomeNewAPI() {
