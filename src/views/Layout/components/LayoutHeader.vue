@@ -17,7 +17,7 @@ const categoryStore = useCategoryStore()
         </li>
 
         <li v-for="item in categoryStore.categoryList" :key="item.id">
-          <RouterLink :to="`/Category/${item.id}`">{{ item.name }}</RouterLink>
+          <RouterLink active-class="active" :to="`/Category/${item.id}`">{{ item.name }}</RouterLink>
         </li>
 
       </ul>

@@ -4,14 +4,16 @@
   import { getCategoryListAPI } from '@/apis/category'
   const categoryData = ref({})
   const route = useRoute()
+  const emit = defineEmits(['getCategoryData'])
+
   const getCategory = async (id) => {
-    // 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route
     const res = await getCategoryListAPI(id)
     categoryData.value = res.result
+    emit('getCategoryData', categoryData.value)
+    // console.log(categoryData)
   }
-  onMounted(() => getCategory(route.params.id))
-  watch(() => route.params.id, (newVal) => {
-    getCategory(newVal)
+  onMounted(() => {
+    getCategory(route.params.id)
   })
 </script>
 
