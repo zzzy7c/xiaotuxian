@@ -1,75 +1,76 @@
 <script setup>
-import breadCrumb from './components/breadCrumb.vue'
-import { getHomeBannerAPI } from '@/apis/home'
-import { ref,onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
-const bannerList = ref([])
-const getHomeBanner = async () => {
-  const res = await getHomeBannerAPI({ distributionsite: '2' })
-  bannerList.value = res.result
-}
-const categoryData = ref({})
-const getCategory = (data) => {
-  categoryData.value = data
-  console.log(categoryData.value)
-  // console.log('接收到的数据:', JSON.stringify(data, null, 2))
-}
+import { useBanner } from '@/composables/useBanner'
+import { useCategory } from '@/composables/useCategory'
+
+const route = useRoute()
+const { bannerList, getBanner } = useBanner()
+const { categoryData, getCategory } = useCategory()
+
 onMounted(() => {
-  getHomeBanner()
+  getBanner()
+  getCategory(route.params.id)
+})
+
+watch(() => route.params.id, (newId) => {
+  getCategory(newId)
 })
 </script>
 <template>
   <!-- 面包屑导航 -->
-  <div>
-    <breadCrumb @getCategoryData="getCategory"></breadCrumb>
+  <div class="container m-top-20">
+    <div class="bread-container">
+      <el-breadcrumb separator=">">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="categoryData">{{ categoryData.name }}</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
   </div>
+
   <!-- 轮播图 -->
   <div class="home-banner">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
         <img :src="item.imgUrl" alt="">
       </el-carousel-item>
-
     </el-carousel>
-
   </div>
+
   <!-- 商品列表 -->
-  <div class="sub-list">
-  <h3>全部分类</h3>
-
-  <ul>
-    <li v-for="i in categoryData.children" :key="i.id">
-      <RouterLink to="/">
-        <img :src="i.picture" />
-        <p>{{ i.name }}</p>
-
-      </RouterLink>
-
-    </li>
-
-  </ul>
-
-</div>
-
-<div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
-  <div class="head">
-    <h3>- {{ item.name }}-</h3>
-
+  <div v-if="categoryData" class="sub-list">
+    <h3>全部分类</h3>
+    <ul>
+      <li v-for="i in categoryData.children" :key="i.id">
+        <RouterLink :to="`/Category/sub/${i.id}`">
+          <img :src="i.picture" />
+          <p>{{ i.name }}</p>
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 
-  <div class="body">
-    <GoodsItem v-for="good in item.goods" :goods="good" :key="good.id" />
+  <div v-if="categoryData">
+    <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+      <div class="head">
+        <h3>- {{ item.name }}-</h3>
+      </div>
+      <div class="body">
+        <GoodsItem v-for="good in item.goods" :goods="good" :key="good.id" />
+      </div>
+    </div>
   </div>
-
-</div>
-
 </template>
 <style scoped lang='scss'>
+.bread-container {
+  padding: 25px 0;
+}
+
 .home-banner {
   width: 1240px;
   height: 500px;
   margin: 0 auto;
-
 
   img {
     width: 100%;
