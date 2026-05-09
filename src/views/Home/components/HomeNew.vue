@@ -17,7 +17,7 @@ onMounted(() => getHomeNew())
      <template #main>
     <ul class="goods-list">
     <li v-for="item in newList" :key="item.id">
-      <RouterLink to="/">
+      <RouterLink :to="`/Detail/${item.id}`" >
         <img :src="item.picture" alt="" />
         <p class="name">{{ item.name }}</p>
 
