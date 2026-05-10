@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
+import router from '@/router'
 const httpInstance = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   timeout: 10000,
@@ -16,6 +17,16 @@ httpInstance.interceptors.request.use(config => {
 
 // 响应拦截器
 httpInstance.interceptors.response.use(res => res.data, e => {
+  ElMessage({
+    type: 'warning',
+    message: e.response.data.message
+  })
+  const userStore = useUserStore()
+  // 401token失效处理
+  if(e.response.status === 401){
+    userStore.clearUserInfo()
+    router.replace({path:'/login'})
+  }
   return Promise.reject(e)
 })
 
