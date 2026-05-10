@@ -37,6 +37,7 @@ const doLogin = () => {
       await userStore.getUserInfo(account,password)
       ElMessage.success('登录成功')
       router.replace({path:'/'})
+      // console.log(userStore.userInfo)
     }
   })
 }

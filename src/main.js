@@ -5,7 +5,7 @@ import router from './router'
 import '@/styles/common.scss'
 import { lazyPlugin } from './directives/lazy'
 import { componentPlugin } from '@/components/componentPlugin.js'
-import { piniaPluginPersistedstate } from 'pinia-plugin-persistedstate'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)

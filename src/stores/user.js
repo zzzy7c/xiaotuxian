@@ -1,15 +1,19 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { login } from '@/api/user'
+import { loginAPI } from '@/apis/login'
 export const useUserStore = defineStore('user',() => {
   const userInfo = ref({})
   const getUserInfo = async (account,password) => {
-    const res = await login (account,password)
+    const res = await loginAPI (account,password)
     userInfo.value = res.result
+  }
+  const clearUserInfo = () => {
+    userInfo.value = {}
   }
   return {
     userInfo,
-    getUserInfo
+    getUserInfo,
+    clearUserInfo,
   }
 },{
   persist: true
