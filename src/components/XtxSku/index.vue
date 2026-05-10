@@ -1,3 +1,11 @@
+<!-- 传入goods对象
+     输出 {
+          skuId: sku.id,
+          price: sku.price,
+          oldPrice: sku.oldPrice,
+          inventory: sku.inventory,
+          specsText: sku.specs.reduce((p, n) => `${p} ${n.name}：${n.valueName}`, '').trim()
+        }-->
 <template>
   <div class="goods-sku">
     <dl v-for="item in goods.specs" :key="item.id">
