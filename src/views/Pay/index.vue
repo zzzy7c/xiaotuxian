@@ -2,18 +2,26 @@
 import { ref,onMounted } from 'vue'
 import { getPayInfoAPI } from '@/apis/pay'
 import { useRoute } from 'vue-router'
+import { useCountDown } from '@/composables/useCountDown'
 const route = useRoute()
 const id = route.query.id
 const payInfo =ref({})
+const { formatTime, start } = useCountDown()
 const getPayInfo = async () => {
   const res = await getPayInfoAPI(id)
   payInfo.value = res.result
-  console.log(payInfo)
-
+  // console.log(payInfo)
+  start(payInfo.value.countdown)
 }
+
 onMounted(() => {
   getPayInfo()
 })
+// 跳转支付
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+const backURL = `${window.location.origin}/paycallback`
+const redirectUrl = encodeURIComponent(backURL)
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 
 
@@ -27,7 +35,7 @@ onMounted(() => {
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
 
-          <p>支付还剩 <span>{{ payInfo.payLatestTime }}</span>, 超时后将取消订单</p>
+          <p>支付还剩 <span>{{ formatTime }}</span>, 超时后将取消订单</p>
 
         </div>
 

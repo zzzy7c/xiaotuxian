@@ -35,7 +35,7 @@ const createOrder = async () => {
     addressId: curAddress.value.id,
   })
   const orderId = res.result.id
-  console.log(orderId)
+  // console.log(orderId)
   router.push({
     path: '/Pay',
     query: {
@@ -118,7 +118,7 @@ const createOrder = async () => {
 
                 <td>&yen;{{ i.price }}</td>
 
-                <td>{{ i.price }}</td>
+                <td>{{ i.count }}</td>
 
                 <td>&yen;{{ i.totalPrice }}</td>
 
