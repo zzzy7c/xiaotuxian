@@ -1,13 +1,15 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-
+import { useCartStore } from '@/stores/cart'
+import { mergeCartAPI } from '@/apis/cart'
 const router = useRouter()
 const userStore = useUserStore()
-
+const cartStore = useCartStore()
+const List = computed(() => cartStore.cartList)
 const userInfo = ref({
   account: '',
   password: '',
@@ -37,6 +39,8 @@ const doLogin = () => {
       await userStore.getUserInfo(account,password)
       ElMessage.success('登录成功')
       router.replace({path:'/'})
+      await mergeCartAPI(List.value)
+      cartStore.newCartList()
       // console.log(userStore.userInfo)
     }
   })

@@ -7,6 +7,9 @@ import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
 import SubCategory from '@/views/SubCategory/index.vue'
 import Detail from '@/views/Detail/index.vue'
+import CartList from '@/views/CartList/index.vue'
+import Checkout from '@/views/Checkout/index.vue'
+import Pay from '@/views/Pay/index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -29,10 +32,22 @@ const router = createRouter({
         path: '/Category/sub/:id' ,
         component: SubCategory,
       },
-    {
-      path: '/Detail/:id',
-      component: Detail,
-    }]
+      {
+        path: '/Detail/:id',
+        component: Detail,
+      },
+      {
+        path: '/CartList',
+        component: CartList,
+      },
+      {
+        path: '/Checkout',
+        component: Checkout,
+      },
+      {
+        path: '/pay',
+        component: Pay,
+      }]
     }
   ],
   scrollBehavior() {
