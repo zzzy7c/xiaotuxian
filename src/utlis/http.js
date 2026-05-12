@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
 const httpInstance = axios.create({
-  baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+  baseURL: 'https://pcapi-xiaotuxian-front-devtest.itheima.net',
   timeout: 10000,
 })
 // 请求拦截器
