@@ -7,10 +7,16 @@ const params = ref({
   page: 1,
   pageSize: 2
 })
+const total = ref(0)
 const getOrder = async () => {
   const res = await getUserOrder(params.value)
   orderList.value = res.result
+  total.value = res.result.counts
   // console.log(orderList)
+}
+const pageChange = (page) => {
+  params.value.page = page
+  getOrder()
 }
 onMounted(() => getOrder())
 // tab列表
@@ -28,6 +34,18 @@ const tabChange = (type) => {
   console.log(params.value.orderState)
   getOrder()
 }
+// 创建格式化函数
+const fomartPayState = (payState) => {
+    const stateMap = {
+      1: '待付款',
+      2: '待发货',
+      3: '待收货',
+      4: '待评价',
+      5: '已完成',
+      6: '已取消'
+    }
+    return stateMap[payState]
+  }
 </script>
 
 <template>
@@ -90,7 +108,7 @@ const tabChange = (type) => {
               </div>
 
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ fomartPayState(order.orderState) }}</p>
 
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
@@ -150,7 +168,7 @@ const tabChange = (type) => {
 
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination :total='total' @current-change="pageChange" :page-size="params.pageSize" background layout="prev, pager, next" />
           </div>
 
         </div>

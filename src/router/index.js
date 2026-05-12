@@ -57,14 +57,14 @@ const router = createRouter({
         component: PayBack
       },
       {
-        path: '/member',
+        path: 'member',
         component: Member,
         children: [{
-          path: '/member/user',
+          path: '',
           component: User,
         },
         {
-          path: '/member/order',
+          path: 'order',
           component: Order,
         }]
       }]
