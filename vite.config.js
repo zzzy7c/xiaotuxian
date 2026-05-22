@@ -7,6 +7,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import viteImagemin from 'vite-plugin-imagemin'
+import { visualizer } from 'rollup-plugin-visualizer'
+import purgecss from 'vite-plugin-purgecss'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -44,6 +46,21 @@ export default defineConfig({
             active: false,
           },
         ],
+      },
+    }),
+    visualizer({
+      filename: 'dist/stats.html',
+      open: false,
+    }),
+    purgecss({
+      content: [
+        './index.html',
+        './src/**/*.vue',
+        './src/**/*.js',
+      ],
+      safelist: {
+        standard: [/el-/],
+        deep: [/xtx-/],
       },
     }),
   ],

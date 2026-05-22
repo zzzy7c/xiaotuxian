@@ -1,6 +1,6 @@
 <script setup>
 import { getCategoryFilterAPI } from "@/apis/category"
-import { ref,watch } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getSubCategoryAPI } from "@/apis/category"
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
